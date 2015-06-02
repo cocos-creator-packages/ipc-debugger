@@ -8,6 +8,7 @@
 }
 
 .toolbar {
+    height: 40px;
     padding: 5px 10px;
 }
 .toolbar .btn {
