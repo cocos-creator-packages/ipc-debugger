@@ -8,14 +8,19 @@
 }
 
 .toolbar {
-    height: 40px;
+    @apply(--layout-horizontal);
+
     padding: 5px 10px;
+    min-height: 25px;
+    box-sizing: border-box;
 }
 .toolbar .btn {
     font-size: 12px;
     padding: 3px;
     margin-right: 0px;
     color: #09f;
+    height: 18px;
+    box-sizing: border-box;
 }
 .toolbar .btn:hover {
     background: #333;
