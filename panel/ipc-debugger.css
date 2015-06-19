@@ -41,6 +41,7 @@ ul {
 li {
     list-style-type: none;
     display: flex;
+    white-space: nowrap;
 }
 
 li[builtin] {
