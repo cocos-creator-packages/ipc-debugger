@@ -1,10 +1,10 @@
 {
   "name": "ipc-debugger",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "A simple ipc debugger",
   "author": "Firebox Technology",
   "hosts": {
-      "editor-framework": "^0.3.6"
+      "editor-framework": "^0.3.12"
   },
   "main": "main.js",
   "menus": {
