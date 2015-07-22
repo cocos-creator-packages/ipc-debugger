@@ -23,10 +23,6 @@
       ],
       "shortcuts": {
         "r": "refresh"
-      },
-      "profiles": {
-        "local": {
-        }
       }
     }
   }
