@@ -4,7 +4,7 @@
   "description": "A simple ipc debugger",
   "author": "Firebox Technology",
   "hosts": {
-      "editor-framework": "^0.3.12"
+    "editor-framework": "^0.3.14"
   },
   "main": "main.js",
   "menus": {
@@ -19,8 +19,7 @@
       "title": "Ipc Debugger",
       "width": 500,
       "height": 800,
-      "messages": [
-      ],
+      "messages": [],
       "shortcuts": {
         "r": "refresh"
       }
