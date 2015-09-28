@@ -3,8 +3,6 @@
 var Ipc = require('ipc');
 
 Editor.registerPanel( 'ipc-debugger.panel', {
-    is: 'ipc-debugger',
-
     properties: {
     },
 
