@@ -8,7 +8,7 @@
   },
   "main": "main.js",
   "menus": {
-    "Developer/Ipc Debugger": {
+    "i18n:MAIN_MENU.developer.title/Ipc Debugger": {
       "message": "ipc-debugger:open"
     }
   },
