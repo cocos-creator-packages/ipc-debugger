@@ -1,63 +1,70 @@
-var Async = require('async');
-var Ipc = require('ipc');
+'use strict';
 
-var inspects = {};
+const Electron = require('electron');
+const ipcMain = Electron.ipcMain;
+
+const Async = require('async');
+
+let _inspects = {};
 
 module.exports = {
-    load: function () {
-    },
+  load () {
+  },
 
-    unload: function () {
-        for ( var name in inspects ) {
-            Ipc.removeListener( name, inspects[name] );
+  unload () {
+    for ( let name in _inspects ) {
+      ipcMain.removeListener( name, _inspects[name] );
+    }
+  },
+
+  'ipc-debugger:open' () {
+    Editor.Panel.open('ipc-debugger.panel');
+  },
+
+  'ipc-debugger:query' ( event, reply ) {
+    let windows = Editor.Window.windows;
+    let infoList = [];
+
+    for ( let p in ipcMain._events ) {
+      let listeners = ipcMain._events[p];
+      let count = Array.isArray(listeners) ? listeners.length : 1;
+      infoList.push({
+        name: p,
+        level: 'core',
+        count: count,
+        inspect: _inspects[p] !== undefined,
+      });
+    }
+
+    Async.each( windows, ( win, done ) => {
+      win.sendRequestToPage( 'editor:query-ipc-events', infos => {
+        if ( infos ) {
+          infoList = infoList.concat(infos);
         }
-    },
 
-    'ipc-debugger:open': function () {
-        Editor.Panel.open('ipc-debugger.panel');
-    },
+        done();
+      });
+    }, () => {
+      reply(infoList);
+    });
+  },
 
-    'ipc-debugger:query': function ( reply ) {
-        var windows = Editor.Window.windows;
-        var infoList = [];
-        for ( var p in Ipc._events ) {
-            var listeners = Ipc._events[p];
-            var count = Array.isArray(listeners) ? listeners.length : 1;
-            infoList.push({
-                name: p,
-                level: 'core',
-                count: count,
-                inspect: inspects[p] !== undefined,
-            });
-        }
+  'ipc-debugger:inspect' ( event, name ) {
+    function fn () {
+      let args = [].slice.call( arguments, 0 );
+      args.unshift( 'ipc-debugger[core][' + name + ']' );
+      Editor.success.apply( Editor, args );
+    }
 
-        Async.each( windows, function ( win, done ) {
-            win.sendRequestToPage( 'ipc-debugger:query', function ( infos ) {
-                if ( infos ) {
-                    infoList = infoList.concat(infos);
-                }
-                done();
-            });
-        }, function ( err ) {
-            reply(infoList);
-        });
-    },
+    _inspects[name] = fn;
+    ipcMain.on( name, fn );
+  },
 
-    'ipc-debugger:inspect': function ( name ) {
-        var fn = function () {
-            var args = [].slice.call( arguments, 0 );
-            args.unshift( 'ipc-debugger[core][' + name + ']' );
-            Editor.success.apply( Editor, args );
-        };
-        inspects[name] = fn;
-        Ipc.on( name, fn );
-    },
-
-    'ipc-debugger:uninspect': function ( name ) {
-        var fn = inspects[name];
-        if ( fn ) {
-            Ipc.removeListener( name, fn );
-            delete inspects[name];
-        }
-    },
+  'ipc-debugger:uninspect' ( event, name ) {
+    let fn = _inspects[name];
+    if ( fn ) {
+      ipcMain.removeListener( name, fn );
+      delete _inspects[name];
+    }
+  },
 };

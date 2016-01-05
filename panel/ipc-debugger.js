@@ -1,91 +1,90 @@
-(function () {
+(() => {
+  'use strict';
 
-var Ipc = require('ipc');
+  const Electron = require('electron');
+  const ipcRenderer = Electron.ipcRenderer;
 
-Editor.registerPanel( 'ipc-debugger.panel', {
+  Editor.registerPanel( 'ipc-debugger.panel', {
     properties: {
     },
 
-    ready: function () {
-        this.inspects = {};
-        this.refresh();
+    ready () {
+      this.inspects = {};
+      this.refresh();
     },
 
-    _onRefresh: function ( event ) {
-        this.refresh();
+    _onRefresh () {
+      this.refresh();
     },
 
-    _onInspect: function ( event ) {
-        event.stopPropagation();
+    _onInspect ( event ) {
+      event.stopPropagation();
 
-        var model = event.model;
-        // var item = this.$.list.itemForElement(event.target);
-        var item = model.item;
-        model.set( 'item.inspect', !item.inspect );
-        event.target.classList.toggle( 'active', item.inspect );
+      let model = event.model;
+      // let item = this.$.list.itemForElement(event.target);
+      let item = model.item;
+      model.set( 'item.inspect', !item.inspect );
+      event.target.classList.toggle( 'active', item.inspect );
 
-        if ( item.level === 'core' ) {
-            if ( item.inspect ) {
-                Editor.sendToCore( 'ipc-debugger:inspect', item.name );
-            }
-            else {
-                Editor.sendToCore( 'ipc-debugger:uninspect', item.name );
-            }
+      if ( item.level === 'core' ) {
+        if ( item.inspect ) {
+          Editor.sendToCore( 'ipc-debugger:inspect', item.name );
+        } else {
+          Editor.sendToCore( 'ipc-debugger:uninspect', item.name );
         }
-        else {
-            if ( item.inspect ) {
-                this.inspect(item.name);
-            }
-            else {
-                this.uninspect(item.name);
-            }
+      } else {
+        if ( item.inspect ) {
+          this.inspect(item.name);
+        } else {
+          this.uninspect(item.name);
         }
+      }
 
-        this.refresh();
+      this.refresh();
     },
 
-    inspect: function ( name ) {
-        var fn = function () {
-            var args = [].slice.call( arguments, 0 );
-            args.unshift( 'ipc-debugger[page][' + name + ']' );
-            Editor.success.apply( Editor, args );
-        };
-        this.inspects[name] = fn;
-        Ipc.on( name, fn );
+    inspect ( name ) {
+      let fn = function () {
+        let args = [].slice.call( arguments, 0 );
+        args.unshift( 'ipc-debugger[page][' + name + ']' );
+        Editor.success.apply( Editor, args );
+      };
+      this.inspects[name] = fn;
+      ipcRenderer.on( name, fn );
     },
 
-    uninspect: function ( name ) {
-        var fn = this.inspects[name];
-        if ( fn ) {
-            Ipc.removeListener( name, fn );
-            delete this.inspects[name];
-        }
+    uninspect ( name ) {
+      let fn = this.inspects[name];
+      if ( fn ) {
+        ipcRenderer.removeListener( name, fn );
+        delete this.inspects[name];
+      }
     },
 
-    refresh: function () {
-        Editor.sendRequestToCore( 'ipc-debugger:query', function ( results ) {
-            var ipcInfos = results.filter ( function ( item ) {
-                return !/^ATOM/.test(item.name);
-            });
+    refresh () {
+      Editor.sendRequestToCore( 'ipc-debugger:query', results => {
+        let ipcInfos = results.filter ( item => {
+          return !/^ATOM/.test(item.name);
+        });
 
-            ipcInfos.sort( function ( a, b ) {
-                var result = a.level.localeCompare( b.level );
-                if ( result === 0 ) {
-                    result = a.name.localeCompare(b.name);
-                }
-                return result;
-            });
+        ipcInfos.sort(( a, b ) => {
+          let result = a.level.localeCompare( b.level );
+          if ( result === 0 ) {
+            result = a.name.localeCompare(b.name);
+          }
+          return result;
+        });
 
-            ipcInfos = ipcInfos.map( function ( item ) {
-                if ( item.level === 'page' ) {
-                    item.inspect = this.inspects[item.name] !== undefined;
-                }
-                return item;
-            }.bind(this));
+        ipcInfos = ipcInfos.map(item => {
+          if ( item.level === 'page' ) {
+            item.inspect = this.inspects[item.name] !== undefined;
+          }
+          return item;
+        });
 
-            this.set( 'ipcInfos', ipcInfos );
-        }.bind(this));
+        this.set( 'ipcInfos', ipcInfos );
+      });
     },
-});
+  });
 
 })();
