@@ -1,67 +1,67 @@
 :host {
-    color: #aaa;
+  color: #aaa;
 
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: stretch;
-    flex-direction: column;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  flex-direction: column;
 }
 
 .toolbar {
-    @apply(--layout-horizontal);
+  @apply(--layout-horizontal);
 
-    padding: 5px 10px;
-    min-height: 25px;
-    box-sizing: border-box;
+  padding: 5px 10px;
+  min-height: 25px;
+  box-sizing: border-box;
 }
 .toolbar .btn {
-    font-size: 12px;
-    padding: 3px;
-    margin-right: 0px;
-    color: #09f;
-    height: 18px;
-    box-sizing: border-box;
+  font-size: 12px;
+  padding: 3px;
+  margin-right: 0px;
+  color: #09f;
+  height: 18px;
+  box-sizing: border-box;
 }
 .toolbar .btn:hover {
-    background: #333;
+  background: #333;
 }
 
 .content {
-    overflow: auto;
+  overflow: auto;
 }
 
 ul {
-    padding: 0px;
-    margin: 0px;
+  padding: 0px;
+  margin: 0px;
 
-    margin-left: 10px;
-    margin-bottom: 5px;
+  margin-left: 10px;
+  margin-bottom: 5px;
 }
 
 li {
-    list-style-type: none;
-    display: flex;
-    white-space: nowrap;
+  list-style-type: none;
+  display: flex;
+  white-space: nowrap;
 }
 
 li[builtin] {
-    color: #888;
+  color: #888;
 }
 
 li .row-item {
-    overflow: hidden;
-    text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .count {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .btn {
-    margin-right: 5px;
-    cursor: pointer;
+  margin-right: 5px;
+  cursor: pointer;
 }
 
 .btn.active {
-    color: #0f0;
+  color: #0f0;
 }
