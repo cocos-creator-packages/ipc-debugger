@@ -28,9 +28,9 @@
 
       if ( item.level === 'core' ) {
         if ( item.inspect ) {
-          Editor.sendToCore( 'ipc-debugger:inspect', item.name );
+          Editor.Ipc.sendToMain( 'ipc-debugger:inspect', item.name );
         } else {
-          Editor.sendToCore( 'ipc-debugger:uninspect', item.name );
+          Editor.Ipc.sendToMain( 'ipc-debugger:uninspect', item.name );
         }
       } else {
         if ( item.inspect ) {
@@ -62,7 +62,7 @@
     },
 
     refresh () {
-      Editor.sendRequestToCore( 'ipc-debugger:query', results => {
+      Editor.Ipc.sendToMain( 'ipc-debugger:query', results => {
         let ipcInfos = results.filter ( item => {
           return !/^ATOM/.test(item.name);
         });

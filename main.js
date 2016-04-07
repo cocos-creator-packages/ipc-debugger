@@ -22,7 +22,7 @@ module.exports = {
       Editor.Panel.open('ipc-debugger.panel');
     },
 
-    query ( event, reply ) {
+    query ( event ) {
       let windows = Editor.Window.windows;
       let infoList = [];
 
@@ -38,7 +38,7 @@ module.exports = {
       }
 
       Async.each( windows, ( win, done ) => {
-        win.sendRequestToPage( 'editor:query-ipc-events', infos => {
+        win.send( 'editor:query-ipc-events', infos => {
           if ( infos ) {
             infoList = infoList.concat(infos);
           }
@@ -46,7 +46,7 @@ module.exports = {
           done();
         });
       }, () => {
-        reply(infoList);
+        event.reply(infoList);
       });
     },
 
