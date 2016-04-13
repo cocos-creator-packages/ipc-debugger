@@ -38,7 +38,7 @@ module.exports = {
       }
 
       Async.each( windows, ( win, done ) => {
-        win.send( 'editor:query-ipc-events', infos => {
+        win.send( 'editor:query-ipc-events', (err, infos) => {
           if ( infos ) {
             infoList = infoList.concat(infos);
           }
@@ -46,7 +46,7 @@ module.exports = {
           done();
         });
       }, () => {
-        event.reply(infoList);
+        event.reply(null,infoList);
       });
     },
 

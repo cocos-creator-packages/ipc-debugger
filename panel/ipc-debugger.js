@@ -62,7 +62,7 @@
     },
 
     refresh () {
-      Editor.Ipc.sendToMain( 'ipc-debugger:query', results => {
+      Editor.Ipc.sendToMain( 'ipc-debugger:query', (err, results) => {
         let ipcInfos = results.filter ( item => {
           return !/^ATOM/.test(item.name);
         });
