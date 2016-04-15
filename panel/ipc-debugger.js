@@ -4,7 +4,7 @@
   const Electron = require('electron');
   const ipcRenderer = Electron.ipcRenderer;
 
-  Editor.registerPanel( 'ipc-debugger.panel', {
+  Editor.polymerPanel( 'ipc-debugger', {
     properties: {
     },
 

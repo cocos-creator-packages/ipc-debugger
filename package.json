@@ -12,17 +12,15 @@
       "message": "ipc-debugger:open"
     }
   },
-  "panels": {
-    "panel": {
-      "frame": "panel/ipc-debugger.html",
-      "type": "dockable",
-      "title": "Ipc Debugger",
-      "width": 500,
-      "height": 800,
-      "messages": [],
-      "shortcuts": {
-        "r": "refresh"
-      }
+  "panel": {
+    "frame": "panel/ipc-debugger.html",
+    "type": "dockable",
+    "title": "Ipc Debugger",
+    "width": 500,
+    "height": 800,
+    "messages": [],
+    "shortcuts": {
+      "r": "refresh"
     }
   }
 }

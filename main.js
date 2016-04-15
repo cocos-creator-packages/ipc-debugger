@@ -19,7 +19,7 @@ module.exports = {
 
   messages: {
     open () {
-      Editor.Panel.open('ipc-debugger.panel');
+      Editor.Panel.open('ipc-debugger');
     },
 
     query ( event ) {
