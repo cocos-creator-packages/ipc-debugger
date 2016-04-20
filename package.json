@@ -13,12 +13,12 @@
     }
   },
   "panel": {
-    "frame": "panel/ipc-debugger.html",
+    "main": "panel/ipc-debugger.html",
+    "ui": "polymer",
     "type": "dockable",
     "title": "Ipc Debugger",
     "width": 500,
     "height": 800,
-    "messages": [],
     "shortcuts": {
       "r": "refresh"
     }
