@@ -3,9 +3,6 @@
   "version": "0.1.4",
   "description": "A simple ipc debugger",
   "author": "Firebox Technology",
-  "hosts": {
-    "editor-framework": "^0.5.0"
-  },
   "main": "main.js",
   "main-menu": {
     "i18n:MAIN_MENU.developer.title/Ipc Debugger": {
